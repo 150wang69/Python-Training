@@ -1,2 +1,2 @@
-# Python-Traning
+# Python-Training
 Ok Hello World！
