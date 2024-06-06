@@ -1,0 +1,324 @@
+首先需要在mySQL的官网下载相关的软件，MySQL
+
+安装完成后，进入cmd命令窗口，切换到下载mysql的文件夹的bin目录下面输入命令：mysql -u root -p 后输入刚刚设置的密码进入自己的数据库。
+
+（一）MySQL的基本操作：
+注意：数据库的命令语句都是以英文分号结尾“ ; ”。并且数据库中不用区分大小写。
+
+1.创建数据库：
+  mysql>create database school;
+
+2.查看已经创建的数据库：
+  mysql>show databases;
+
+3.打开数据库：
+  mysql>use school;
+
+4.在数据库中创建表：
+  mysql>create table student(
+  
+       ->sno char(5),
+  
+       ->sname char(10),
+  
+       ->ssex char(2),
+  
+       ->sage int);
+
+5.使用数据库查看已经创建的表：
+  mysql>show tables;
+
+6.在表中插入数据：
+  mysql>insert into student values('95001',张三,‘男’,21)；
+
+  mysql>insert into student values('95002',李四,‘女’,20)；
+
+7.查询表中的信息：
+  mysql>select * from student;
+
+8.修改表中的数据：
+  mysql>update student set age=21 where sno='95001';
+
+9.删除表：
+  mysql>drop table student;
+
+10.删除数据库：
+  mysql>drop database school;
+
+（二）使用python连接数据库
+首先需要在cmd中安装PyMySQL，输入命令pip install PyMySQL
+
+我们需要了解以下基本信息：
+
+①游标（Cursor）
+
+是用于在数据库连接上执行 SQL 查询和检索结果的对象。在数据库连接上创建游标后，我们可以使用游标执行各种 SQL 操作，如执行查询、插入、更新或删除数据等。
+
+游标的作用包括：
+
+1. **执行 SQL 语句**：我们可以使用游标对象执行 SQL 查询或操作，例如 SELECT、INSERT、UPDATE、DELETE 等。
+
+2. **检索查询结果**：执行查询后，游标可以用来逐行检索查询结果，使我们可以按需处理每一行的数据。
+
+3. **提交事务**：在使用游标执行更新操作（如 INSERT、UPDATE、DELETE）后，我们可能需要提交事务以确保更改被保存到数据库中。
+
+4. **错误处理**：游标还可以用于处理执行 SQL 语句时可能出现的错误，我们可以捕获并处理这些错误以便进行适当的错误处理操作。
+
+在数据库连接上创建游标后，我们可以通过游标对象执行任何需要与数据库交互的操作，并且游标提供了灵活的方法来处理查询结果和执行事务，这使得在编程中与数据库进行交互更加方便和高效。
+
+②事务（Transaction）
+
+在数据库中，事务是指一组要么全部成功执行、要么全部失败回滚的数据库操作。通过将一系列相关的数据库操作捆绑在一个事务中，可以确保数据的完整性和一致性。在 Python 中，使用数据库连接的事务通常遵循以下模式：开始事务、执行一系列数据库操作、提交事务（或回滚事务）。
+
+③execute()方法
+
+`execute()` 方法是数据库游标对象（如在 Python 中使用 `pymysql` 或 `sqlite3` 等库时）的一个方法，用于执行 SQL 语句。
+
+具体而言，`execute()` 方法的作用是将指定的 SQL 语句发送到数据库服务器以执行。该方法通常用于执行各种 SQL 操作，如查询数据、插入新数据、更新数据或删除数据等。一旦执行了 `execute()` 方法，数据库服务器将根据提供的 SQL 语句执行相应的操作，并返回结果（如果适用）。
+
+`execute()` 方法是与数据库交互的重要方法之一，它使得在 Python 中能够方便地执行各种 SQL 操作，从而实现与数据库的数据交互和管理。
+
+④fetchone()方法
+
+在对数据库进行操作时，fetchone()是一个用于从数据库中获取一行数据的方法。
+
+在执行查询语句后，我们通常都会使用游标（Cursor）来检索结果，而fetchone()啊方法会从查询的结果中获取下一行数据，并且将游标移动到下一行。如果没有更多的行可以使用，则返回"None"。
+
+⑤fetchall()方法
+
+fetchall()方法是在数据库操作中常用的方法之一，它用于从查询结果中获取所有的行数据。
+
+当执行查询后，可以使用fetchall()方法来一次性获取所有的结果。然后可以通过遍历用来存储结果的变量来逐行输出所有的查询结果。
+
+**注意**：
+
+fetchall()方法会一次性将所有数据加载到内存中，如果查询结果非常大，可能会导致内存占用过高。因此，在处理大量数据时，应该谨慎使用这个方法，并考虑使用其他方式，如分批次处理数据。
+
+⑥commit()方法
+
+`connect.commit()` 是在 Python 中使用 `pymysql` 或类似库时执行的方法，用于提交在数据库连接上进行的一系列数据库操作，将它们永久保存到数据库中。
+
+**提交事务**：
+`connect.commit()` 方法用于提交当前数据库连接上的事务。当我们执行了一系列数据库操作后，如果希望将这些操作永久保存到数据库中，则可以使用 `commit()` 方法提交事务。提交事务后，所做的所有更改将被写入数据库，并且将成为数据库的一部分。
+
+**注意事项**：
+   - 在执行 `commit()` 方法之前，确保已经完成了所有必要的数据库操作，并且希望将这些操作永久保存到数据库中。
+   - 在某些情况下，如果不希望提交之前的操作，可以使用 `connect.rollback()` 方法回滚事务，将数据库恢复到操作之前的状态。
+
+⑦connect.close()
+
+关闭数据库的连接，释放资源。
+
+1.连接数据库。
+打开命令窗口中的mysql进入，创建一个名为school的数据库（如果已经存在该数据库则需要先删除再重建），然后编写如下代码对数据库进行连接：
+
+import pymysql.cursors
+#连接数据库
+connect = pymysql.Connect(
+    host='localhost', #主机名
+    port=3306, #端口号
+    user='root' #数据库的用户名
+    passwd='123456' #数据库的密码
+    db='school' #要连接的数据库的名称
+    charset='utf8' #编码格式
+)
+ 
+#获取游标
+  cursor = connect.cursor()
+#执行SQL查询
+cursor.execute('SELECT VERSION()')
+#获取单条数据
+version = cursor.fetchone()
+#打印输出
+print("MySQL数据库版本是：%s" % version)
+#关闭数据库的连接
+connect.close()
+
+2.使用python在已存在的数据库中创建表。
+#先连接到数据库
+ 
+#如果表存在则先删除
+cursor.execute("DROP TABLE IF WXISTS student")
+#设定SQL语句
+sql = """
+create table student(
+    sno char(5),
+    sname char(10),
+    ssex char(2),
+    sage int);
+"""
+#执行SQL语句
+cursor.execute(sql)
+#关闭数据库连接
+connect.close()
+ 
+
+3.在表中插入数据。
+#连接到数据库，获取游标
+ 
+#插入数据
+sql = "INSERT INTO student(sno,sname,ssex,sage)VALUES('%s','%s','%s','%d')"
+#定义数据
+data1 = ('95001','张三','男',20)
+data2 = ('95002','李四','女',19)
+#使用游标插入数据
+cursor.execute(sql%data1)
+cursor.execute(sql%data2)
+connect.commit()
+print("insert successfully!")
+#关闭数据库连接
+connect.close()
+
+4.修改表中数据。
+
+#连接数据库，获取游标
+
+#修改信息
+sql = "UPDATE student SET sage = %d WHERE sno = '%s'"
+data = (21,'95002')
+cursor.execute(sql%data)
+connect.commit()
+print("update successfully!")
+#关闭数据库连接
+connect.close()
+
+5.查询表中数据。
+
+#连接数据库获取游标
+ 
+#查询信息
+sql = "SELECT sno,sname,ssex,sqge FROM student WHERE sno='%s'"
+data = ('95001',) #注意逗号（元组中只有一个元素的时候需要添加一个逗号）
+cursor.execute(sql%data)
+for row in cursor,fetchall():
+    print("学号:%s\t姓名:%s\t性别:%s\t年龄:%d\t" % row)
+print("一共"，cursor.rowcount,"条数据")
+#关闭数据库连接
+connect.close()
+
+6.删除表中数据。
+
+#连接数据库获取游标
+
+#删除数据
+sql = "DELETE FROM student WHERE sno = '%s'"
+data = ('95002',)
+cursor.execute(sql % data)
+connect.commit()
+print("delete successfully!")
+#关闭数据库连接
+ocnnect.close()
+
+（三）使用pandas将Excel表格中的数据直接读取到数据库的表当中。
+
+
+我们首先了解一下pandas库：
+
+Pandas 是一个基于 Python 的数据处理库，提供了丰富的数据结构和数据分析工具，能够简化数据操作和分析过程。以下是 Pandas 的一些主要特点和其使用方法：
+
+1. **数据结构**：
+   - **Series**：类似于一维数组，每个元素都有对应的索引，可以是整数、字符串等。
+   - **DataFrame**：类似于二维表格，是由多个 Series 组成的数据结构，可以看作是一个表格，每列可以是不同的数据类型。
+
+2. **数据加载**：
+   - Pandas 支持从多种数据源加载数据，包括 CSV 文件、Excel 文件、数据库、JSON 文件等。
+   - `pd.read_csv()`、`pd.read_excel()`、`pd.read_sql()` 等函数可以用来加载数据。
+
+3. **数据操作**：
+   - **索引和切片**：可以使用标签或位置进行索引和切片操作，类似于 NumPy 的操作。
+   - **数据选择**：可以通过列名、行号、布尔条件等方式选择数据。
+   - **缺失值处理**：Pandas 提供了丰富的方法来处理缺失值，如填充、删除等。
+   - **数据合并**：可以通过 `pd.concat()`、`pd.merge()` 等函数将多个 DataFrame 合并为一个。
+   - **数据分组和聚合**：可以使用 `groupby()` 方法对数据进行分组，然后应用聚合函数。
+
+4. **数据分析**：
+   - Pandas 提供了丰富的统计分析方法，如 `mean()`、`sum()`、`std()` 等。
+   - 可以进行数据透视表的创建和操作。
+   - 支持时间序列数据的处理，如日期解析、频率转换等。
+
+5. **数据可视化**：
+   - Pandas 可以与 Matplotlib、Seaborn 等数据可视化库结合使用，实现数据的可视化分析。
+   - DataFrame 和 Series 对象都有内置的绘图方法，如 `plot()`、`hist()` 等。
+
+6. **高效性**：
+   - Pandas 是基于 NumPy 构建的，底层使用了 C 语言优化，因此在处理大规模数据时具有较高的性能。
+   - 提供了许多优化的函数和方法，可以提高数据处理效率。
+
+思路：
+
+1.使用pymysql连接到数据库。（方法如上）
+
+2.导入pandas模块，读取excel文件到DataFrame对象当中。
+
+3.对DataFrame对象进行数据处理，将信息插入到数据库当中。
+
+import pymysql
+import pandas as pd
+ 
+#连接数据库
+connect = pymysql.Connect(
+    host='localhost' #主机名你
+    port =3306 #端口号
+    user = 'root' #用户名
+    db = 'school' #数据库名称
+    charset = 'utf8' #编码格式
+)
+ 
+#获取游标
+cursor = connect.cursor
+#使用pandas读取Excel表格内容
+df = pandas.read_excel('score.xlsx')
+cursor.execute("drop table if exists score")
+sql = """
+create table score(
+    语文 int,
+    数学 int,
+    英语 int);
+"""
+cursor.execute(sql)
+for index,row in df.iterrows:
+    sql = 'insert into score(语文,数学,英语) values (%s,%s,%s)' 
+    cursor.execute(sql,tuple(row)) #执行sql插入语句，插入数据
+ 
+#提交对数据库的所有更改
+connect.commit()
+ 
+#关闭数据库的连接
+cconnect.close()
+ 
+print("导入成功！")
+
+代码相关解释:
+
+（1）pandas DataFrame中的提供的iterrows()方法。
+
+该方法用于迭代DataFrame中的每一行数据。具体来说，它会返回一个迭代器，该迭代器会逐行提供索引和行数据。索引是DataFrame中的行号，而行数据则是一个Series对象，包含了该行的数据。
+
+这个方法通常用于遍历DataFrame中的数据，以便进行各种操作，比如数据的处理、转换、分析等。一般在数据库中，执行完该操作后会将得到的每一行数据作为参数传递给SQL查询语句，然后执行插入操作。
+
+（2）在数据库中的占位符%s
+
+在SQL中，%s是一种通用的占位符，表示要插入的值。
+
+即使要插入的是整数类型，也可以使用%s作为占位符，而不一定是%d。
+
+而%d是用于格式化字符串时表示整数的占位符，通常用于类似于 C 语言中的 `printf()` 函数或 Python 中的 `format()` 方法中。在这些上下文中，`%d` 用于将整数值插入到字符串中的指定位置。
+
+所以，在 SQL 查询语句中，虽然通常也需要插入整数类型的值，但并不使用 `%d` 占位符，而是使用通用的 `%s` 占位符。因为大多数数据库驱动程序都会将传入的值进行类型转换和转义，以确保安全性和兼容性。因此，在 SQL 查询中，推荐使用 `%s` 作为占位符，而不是 `%d`。
+
+在使用参数化查询时，不同的数据库驱动程序可能对占位符的处理方式略有不同，但通常都支持使用%s作为占位符来代表任何类型的值，包括整数、字符串、日期等。
+
+使用通用的占位符 %s 可以使代码更加灵活，不需要对数据类型进行额外的处理，而且能够避免一些潜在的类型转换错误。另外，使用 %s 也有助于防止 SQL 注入攻击，因为数据库驱动程序会自动对传入的值进行转义，而不会将其解释为 SQL 语句的一部分。
+
+（3）tuple(row)
+
+在该段代码中，`tuple(row)` 将 DataFrame 中的一行数据转换为元组。DataFrame 是 Pandas 提供的二维数据结构，而元组是 Python 中的一种数据类型，它可以容纳多个值，并且是不可变的。
+
+在这段代码中，`df.iterrows()` 遍历了 DataFrame 中的每一行数据，而每一行数据都是一个 Series 对象。`tuple(row)` 将这个 Series 对象转换为一个元组，以便将其作为参数传递给 SQL 查询语句。
+
+元组在这里的作用是将 DataFrame 中的一行数据表示为一个整体，以便传递给 SQL 查询语句中的占位符，从而执行插入操作。
+————————————————
+
+                            版权声明：本文为博主原创文章，遵循 CC 4.0 BY-SA 版权协议，转载请附上原文出处链接和本声明。
+                        
+原文链接：https://blog.csdn.net/wy15003959019/article/details/137465818
