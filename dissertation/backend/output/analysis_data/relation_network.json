@@ -1,0 +1,138 @@
+{
+    "nodes": [
+        {
+            "id": "0",
+            "name": "地方财政医疗卫生支出(亿元)",
+            "value": 559.26,
+            "symbolSize": 40,
+            "category": 0
+        },
+        {
+            "id": "1",
+            "name": "医疗卫生机构数(个)",
+            "value": 32934.5,
+            "symbolSize": 40,
+            "category": 0
+        },
+        {
+            "id": "2",
+            "name": "每万人拥有卫生技术人员数(人)",
+            "value": 76.05,
+            "symbolSize": 40,
+            "category": 0
+        },
+        {
+            "id": "3",
+            "name": "综合效率(TE)",
+            "value": 0.87,
+            "symbolSize": 40,
+            "category": 1
+        },
+        {
+            "id": "4",
+            "name": "纯技术效率(PTE)",
+            "value": 0.94,
+            "symbolSize": 40,
+            "category": 1
+        },
+        {
+            "id": "5",
+            "name": "健康产出效益",
+            "value": 0.15,
+            "symbolSize": 40,
+            "category": 2
+        },
+        {
+            "id": "6",
+            "name": "医院病床使用率(%)",
+            "value": 78.16,
+            "symbolSize": 40,
+            "category": 2
+        }
+    ],
+    "links": [
+        {
+            "source": "0",
+            "target": "6",
+            "value": 0.558,
+            "lineStyle": {
+                "width": 1.675026182536254,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "2",
+            "target": "3",
+            "value": -0.679,
+            "lineStyle": {
+                "width": 2.037547976025368,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "3",
+            "target": "2",
+            "value": -0.679,
+            "lineStyle": {
+                "width": 2.037547976025368,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "4",
+            "target": "5",
+            "value": 0.503,
+            "lineStyle": {
+                "width": 1.509567643558345,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "4",
+            "target": "6",
+            "value": 0.472,
+            "lineStyle": {
+                "width": 1.4156654350586242,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "5",
+            "target": "4",
+            "value": 0.503,
+            "lineStyle": {
+                "width": 1.509567643558345,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "6",
+            "target": "0",
+            "value": 0.558,
+            "lineStyle": {
+                "width": 1.675026182536254,
+                "opacity": 0.7
+            }
+        },
+        {
+            "source": "6",
+            "target": "4",
+            "value": 0.472,
+            "lineStyle": {
+                "width": 1.4156654350586242,
+                "opacity": 0.7
+            }
+        }
+    ],
+    "categories": [
+        {
+            "name": "医疗资源(投入)"
+        },
+        {
+            "name": "配置效率(DEA)"
+        },
+        {
+            "name": "健康效益(产出)"
+        }
+    ]
+}
